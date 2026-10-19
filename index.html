@@ -7,157 +7,35 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
   <div class="hud" id="hud">
-    <svg id="dial" class="dial" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+    <svg id="dial" viewBox="0 0 800 370" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="face-grad" cx="50%" cy="45%" r="60%">
-          <stop offset="0%" stop-color="#141414" />
-          <stop offset="75%" stop-color="#070707" />
-          <stop offset="100%" stop-color="#000000" />
-        </radialGradient>
-        <linearGradient id="rim-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#ffcf9e" />
-          <stop offset="30%" stop-color="#9a5a30" />
-          <stop offset="55%" stop-color="#2b1a10" />
-          <stop offset="80%" stop-color="#b8754a" />
-          <stop offset="100%" stop-color="#ffd9b0" />
-        </linearGradient>
-        <linearGradient id="needle-grad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#b80000" />
-          <stop offset="60%" stop-color="#ff2020" />
-          <stop offset="100%" stop-color="#ff6a5a" />
-        </linearGradient>
-        <radialGradient id="hub-grad" cx="38%" cy="32%" r="75%">
-          <stop offset="0%" stop-color="#4a4a4a" />
-          <stop offset="55%" stop-color="#121212" />
-          <stop offset="100%" stop-color="#000000" />
-        </radialGradient>
-        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2.2" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
+        <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#090909"/></linearGradient>
+        <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a9a9a"/><stop offset="1" stop-color="#2c2c2c"/></linearGradient>
+        <radialGradient id="cream" cx="50%" cy="100%" r="90%"><stop offset="0" stop-color="#f3ead2"/><stop offset="1" stop-color="#cdbf9f"/></radialGradient>
+        <pattern id="vr" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="1.6" height="4" fill="rgba(0,0,0,.6)"/></pattern>
+        <pattern id="hr" width="4" height="5" patternUnits="userSpaceOnUse"><rect width="4" height="1.6" fill="rgba(255,255,255,.08)"/><rect y="2.6" width="4" height="1.6" fill="rgba(0,0,0,.6)"/></pattern>
       </defs>
 
-      <!-- Latar pod gauge (di belakang dial utama) -->
-      <g id="pods">
-        <circle id="rpm-pod" class="pod" cx="198" cy="349" r="152" />
-        <circle id="fuel-pod" class="pod" cx="794" cy="212" r="92" />
-        <circle id="oil-pod" class="pod" cx="789" cy="403" r="92" />
+      <!-- BODI, VISOR, JENDELA DIAL, WAJAH KREM -->
+      <g id="back">
+        <path id="body" d="M30 245C30 160 60 95 112 66Q400 8 688 66C740 95 770 160 770 245V320Q770 355 740 358H60Q30 355 30 320Z" fill="url(#hg)" stroke="url(#edge)" stroke-width="2.5"/>
+        <path d="M30 245C30 160 60 95 112 66Q400 8 688 66C740 95 770 160 770 245V320Q770 355 740 358H60Q30 355 30 320Z" fill="url(#vr)"/>
+        <path d="M62 238Q52 200 60 168C70 120 110 100 200 96L600 96C690 100 730 120 740 168Q748 200 738 238Z" fill="#050505" stroke="#2c2c2c" stroke-width="3"/>
+        <path d="M124 237L160 165Q400 123 640 165L676 237Z" fill="url(#cream)"/>
+        <path d="M169 237Q175 205 200 199Q400 176 600 199Q625 205 631 237" fill="none" stroke="rgba(0,0,0,.14)" stroke-width="1.5"/>
       </g>
+      <g id="art"></g>
+      <g id="needleLayer"></g>
 
-      <!-- ============ RPM (kiri) ============ -->
-      <g id="rpm-gauge">
-        <path id="rpm-rim" class="pod-rim" />
-        <g id="rpm-ticks"></g>
-        <g id="rpm-labels"></g>
-        <text class="mini-text" x="200" y="300" text-anchor="middle">RPM</text>
-        <text class="mini-text small" x="200" y="318" text-anchor="middle">x1000</text>
-        <g id="rpm-needle" class="needle-small">
-          <path d="M-16 -2.8 L124 -1 L130 0 L124 1 L-16 2.8 Z" fill="url(#needle-grad)" />
-        </g>
-        <circle class="hub" cx="198" cy="349" r="20" fill="url(#hub-grad)" />
-        <circle class="hub-ring" cx="198" cy="349" r="20" />
+      <!-- PANEL RIBBED BAWAH (menutup pangkal jarum) -->
+      <g id="panel">
+        <path d="M36 240H764V318Q764 350 730 350H70Q36 350 36 318Z" fill="#131313"/>
+        <path d="M36 240H764V318Q764 350 730 350H70Q36 350 36 318Z" fill="url(#hr)" stroke="rgba(255,255,255,.12)"/>
       </g>
-
-      <!-- ============ SPEEDOMETER (tengah) ============ -->
-      <g id="speed-gauge">
-        <circle class="rim-outer" cx="514" cy="297" r="238" />
-        <circle class="rim-inner" cx="514" cy="297" r="231" />
-        <circle class="face" cx="514" cy="297" r="229" />
-        <g id="speed-red"></g>
-        <g id="speed-ticks"></g>
-        <g id="speed-labels"></g>
-        <text id="unit-text" class="unit-text" x="514" y="228" text-anchor="middle">mph</text>
-        <g id="needle">
-          <path d="M-30 -3.6 L206 -1.1 L214 0 L206 1.1 L-30 3.6 Z" fill="url(#needle-grad)" />
-        </g>
-        <circle class="hub" cx="514" cy="297" r="30" fill="url(#hub-grad)" />
-        <circle class="hub-ring" cx="514" cy="297" r="30" />
-        <circle class="hub-dot" cx="514" cy="297" r="2" />
-      </g>
-
-      <!-- ============ BENSIN (kanan atas) ============ -->
-      <g id="fuel-gauge">
-        <path id="fuel-rim" class="pod-rim" />
-        <g id="fuel-ticks"></g>
-        <text class="mini-label" x="822" y="164" text-anchor="middle">F</text>
-        <text class="mini-label" x="822" y="260" text-anchor="middle">E</text>
-        <g id="fuel-needle" class="needle-small">
-          <path d="M-14 -2.6 L77 -1 L84 0 L77 1 L-14 2.6 Z" fill="url(#needle-grad)" />
-        </g>
-        <circle class="hub" cx="794" cy="212" r="19" fill="url(#hub-grad)" />
-        <circle class="hub-ring" cx="794" cy="212" r="19" />
-        <g id="fuel-icon" class="side-icon" transform="translate(783 236)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11A2.5 2.5 0 0 0 16 9.5 2.5 2.5 0 0 0 18.5 12c.36 0 .7-.08 1-.21v7.21a1 1 0 0 1-2 0V14a2 2 0 0 0-2-2h-1V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16h10v-7.5h1.5v5a2.5 2.5 0 0 0 5 0V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5z"/></svg>
-        </g>
-      </g>
-
-      <!-- ============ OLI / ENGINE (kanan bawah) ============ -->
-      <g id="oil-gauge">
-        <path id="oil-rim" class="pod-rim" />
-        <g id="oil-ticks"></g>
-        <g id="oil-labels"></g>
-        <g id="oil-needle" class="needle-small">
-          <path d="M-14 -2.6 L77 -1 L84 0 L77 1 L-14 2.6 Z" fill="url(#needle-grad)" />
-        </g>
-        <circle class="hub" cx="789" cy="403" r="19" fill="url(#hub-grad)" />
-        <circle class="hub-ring" cx="789" cy="403" r="19" />
-        <g id="oil-icon" class="side-icon" transform="translate(776 424)">
-          <svg width="26" height="20" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 8h13l4 4h6M7 8V5M4 5h8M3 8l3 8h11l5-4M26 12l3-4M29 8v3"/>
-            <path d="M29 14c-1 1.5-1.5 2.4-1.5 3a1.5 1.5 0 0 0 3 0c0-.6-.5-1.5-1.5-3z" fill="currentColor" stroke="none"/>
-          </svg>
-        </g>
-        <text class="mini-text small" x="789" y="466" text-anchor="middle">PSI</text>
-      </g>
+      <g id="gauges"></g>
     </svg>
-
-    <div class="lcd">
-      <div class="lcd-cell">
-        <span class="lcd-label">GEAR</span>
-        <span class="seg-wrap gear-wrap">
-          <span class="seg-ghost">8</span>
-          <span id="gear" class="seg-value">1</span>
-        </span>
-      </div>
-      <div class="lcd-cell">
-        <span class="lcd-label">ODO</span>
-        <span class="seg-wrap">
-          <span class="seg-ghost">88888.8</span>
-          <span id="odometer" class="seg-value">0.0</span>
-        </span>
-        <span id="odo-unit" class="lcd-unit">mi</span>
-      </div>
-    </div>
-
-    <!-- INDIKATOR BAWAH -->
-    <div id="indicators" class="bottom-indicators">
-      <div id="headlight-low" class="icon-item" title="Lampu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6V6z"/>
-          <line x1="3" y1="9" x2="7" y2="10"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="3" y1="15" x2="7" y2="14"/>
-        </svg>
-      </div>
-      <div id="headlight-high" class="icon-item" title="Lampu Jauh">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6V6z"/>
-          <line x1="2" y1="8" x2="7" y2="8"/><line x1="2" y1="12" x2="7" y2="12"/><line x1="2" y1="16" x2="7" y2="16"/>
-        </svg>
-      </div>
-      <div id="seatbelts" class="icon-item" title="Sabuk Pengaman">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="12" cy="4" r="2.2"/>
-          <path d="M8 8h8l1 7h-2l-.5 7h-5L9 15H7z" opacity=".9"/>
-          <path d="M7.5 8.5 16.5 17" stroke="#000" stroke-width="1.6"/>
-        </svg>
-      </div>
-    </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

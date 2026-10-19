@@ -1,341 +1,74 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     /* Ubah --hud-scale untuk memperbesar / memperkecil HUD di dalam game */
-    --hud-scale: 0.5;
-    --copper: #c98a5b;
-    --copper-hot: #ffcf9e;
-    --white: #f4f1ec;
-    --red: #ff2a2a;
-    --lcd-on: #f4f1ec;
-    --lcd-off: rgba(244, 241, 236, 0.08);
-    --off: rgba(255, 255, 255, 0.16);
-    --font: 'Bahnschrift', 'Oswald', 'Roboto Condensed', 'Arial Narrow', 'Segoe UI', Arial, sans-serif;
+    --hud-scale: 0.6;
+    --cream-ink: #1b1a17;
 }
 
 html, body {
     width: 100vw;
     height: 100vh;
     background: transparent !important;
-    background-color: transparent !important;
     overflow: hidden !important;
-    font-family: var(--font);
-    color: var(--white);
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     user-select: none;
+    font-family: 'Arial Narrow', 'Roboto Condensed', Arial, sans-serif;
 }
+html.preview body { justify-content: center; align-items: center; background: #151515 !important; }
 
-/* Mode preview (dipakai oleh halaman demo) */
-html.preview body {
-    justify-content: center;
-    align-items: center;
-}
-
-/* KONTAINER HUD UTAMA (1000 x 600 lalu di-scale) */
 .hud {
-    position: relative;
-    width: 1000px;
-    height: 600px;
-    margin: 12px;
+    width: 800px;
+    height: 370px;
+    margin: 18px;
     flex-shrink: 0;
     transform: scale(var(--hud-scale));
     transform-origin: bottom right;
 }
+html.preview .hud { transform-origin: center; }
+#dial { width: 100%; height: 100%; overflow: visible; }
 
-html.preview .hud {
-    transform-origin: center;
-}
+/* DIAL */
+.tk-major { stroke: var(--cream-ink); stroke-width: 3.2; }
+.tk-mid   { stroke: var(--cream-ink); stroke-width: 1.4; }
+.tk-red   { stroke: #c4241a; stroke-width: 3; }
+.num      { fill: #ddd5c0; font-size: 23px; text-anchor: middle; dominant-baseline: central; }
+.unit     { fill: #3a362d; font-size: 11px; text-anchor: end; }
+.brand    { fill: var(--cream-ink); font-size: 10px; letter-spacing: 2px; text-anchor: middle; font-weight: 700; }
+.cap      { fill: #8a8f99; font-size: 6px; letter-spacing: .5px; text-anchor: middle; }
+.cap.dk   { fill: #3a362d; }
+#needle   { fill: #ff6a00; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.6)); }
 
-.dial {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
+/* ODOMETER MEKANIK */
+.odo-bg  { fill: #0a0a0a; stroke: #555; stroke-width: 1; }
+.odo-d   { fill: #f2efe6; font: 700 14px 'Consolas', monospace; text-anchor: middle; dominant-baseline: central; }
+.odo-t   { fill: #111; }
+.odo-box { fill: #eee9d8; }
 
-/* ===== Bodi gauge ===== */
-.rim-outer {
-    fill: none;
-    stroke: url(#rim-grad);
-    stroke-width: 6;
-}
+/* PANEL GAUGE KECIL */
+.gbox  { fill: #050505; stroke: #3b3b3b; stroke-width: 2; }
+.gline { stroke: #d8d2c0; stroke-width: 1.2; }
+.gred  { fill: none; stroke: #c4241a; stroke-width: 5; }
+.gtxt  { fill: #d8d2c0; font-size: 10px; text-anchor: middle; dominant-baseline: central; }
+.gneedle { fill: #ff6a00; }
+.gicon { fill: #d8d2c0; opacity: .85; transition: fill .2s; }
+.gicon.warn   { fill: #ff9100; }
+.gicon.danger { fill: #ff3333; }
 
-.rim-inner {
-    fill: #050505;
-    stroke: #000;
-    stroke-width: 6;
-}
+/* BOHLAM INDIKATOR */
+.bulb .bez   { fill: #1a1a1a; stroke: #5a5a5a; stroke-width: 1.2; }
+.bulb .glass { fill: #1a1d23; transition: fill .15s; }
+.bulb .glyph { fill: rgba(255,255,255,.28); }
+.bulb .shine { fill: #fff; opacity: .22; }
+.bulb.on .glass { fill: var(--c); filter: drop-shadow(0 0 6px var(--c)); }
+.bulb.on .glyph { fill: rgba(0,0,0,.65); }
+.sigL, .sigR { --c: #20e070; }
+.lock { --c: #ffb000; }
+.belt { --c: #ff2a2a; }
+.belt.on .glass { animation: pulse 1.2s ease-in-out infinite; }
+.sig.on .glass, .sig.on .glyph { animation: blink .9s steps(1, end) infinite; }
 
-.face {
-    fill: url(#face-grad);
-}
-
-.pod {
-    fill: url(#face-grad);
-    stroke: none;
-}
-
-.pod-rim {
-    fill: none;
-    stroke: url(#rim-grad);
-    stroke-width: 3;
-}
-
-/* ===== Speedometer ===== */
-.tick-minor {
-    stroke: var(--white);
-    stroke-width: 1.6;
-}
-
-.tick-mid {
-    stroke: var(--white);
-    stroke-width: 2.4;
-}
-
-.tick-major {
-    stroke: var(--copper-hot);
-    stroke-width: 7;
-}
-
-.tick-minor.over,
-.tick-mid.over {
-    stroke: var(--red);
-}
-
-.red-band {
-    fill: none;
-    stroke: var(--red);
-    stroke-width: 5;
-}
-
-.tick-label {
-    fill: var(--white);
-    font-size: 29px;
-    font-weight: 600;
-    text-anchor: middle;
-    dominant-baseline: central;
-}
-
-.unit-text {
-    fill: var(--white);
-    font-size: 22px;
-    font-weight: 500;
-}
-
-/* ===== Gauge kecil ===== */
-.rpm-tick,
-.mini-tick {
-    stroke: var(--white);
-    stroke-width: 1.4;
-}
-
-.rpm-tick.major,
-.mini-tick.major {
-    stroke: var(--copper-hot);
-    stroke-width: 3.2;
-}
-
-.rpm-tick.red,
-.mini-tick.red {
-    stroke: var(--red);
-}
-
-.rpm-num {
-    fill: var(--white);
-    font-size: 22px;
-    font-weight: 600;
-    text-anchor: middle;
-    dominant-baseline: central;
-}
-
-.rpm-num.red {
-    fill: var(--red);
-}
-
-.mini-label {
-    fill: var(--white);
-    font-size: 20px;
-    font-weight: 600;
-    dominant-baseline: central;
-}
-
-.mini-text {
-    fill: var(--white);
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.mini-text.small {
-    font-size: 13px;
-}
-
-.oil-num {
-    fill: var(--white);
-    font-size: 17px;
-    font-weight: 600;
-    text-anchor: middle;
-    dominant-baseline: central;
-}
-
-/* ===== Hub ===== */
-.hub-ring {
-    fill: none;
-    stroke: rgba(255, 190, 130, 0.7);
-    stroke-width: 2;
-}
-
-.hub-dot {
-    fill: #000;
-}
-
-.side-icon {
-    color: var(--white);
-}
-
-.side-icon.low {
-    color: var(--red);
-}
-
-/* ===== Readout digital ===== */
-.readout {
-    position: absolute;
-    top: 368px;
-    left: 264px;
-    width: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-}
-
-.speed-text {
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 1px;
-    font-variant-numeric: tabular-nums;
-    min-width: 96px;
-    text-align: center;
-}
-
-.speed-text .dim {
-    color: rgba(255, 255, 255, 0.12);
-}
-
-.speed-text .bright {
-    color: var(--white);
-}
-
-/* Lampu sein (tanpa kedip, menyala solid) */
-.signal {
-    width: 26px;
-    height: 26px;
-    color: var(--off);
-}
-
-.signal svg {
-    width: 100%;
-    height: 100%;
-}
-
-.signal.active {
-    color: #20e070;
-}
-
-/* ===== Gear & ODO ===== */
-.lcd {
-    position: absolute;
-    top: 428px;
-    left: 419px;
-    width: 190px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.lcd-cell {
-    display: flex;
-    align-items: flex-end;
-    gap: 5px;
-}
-
-.lcd-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--lcd-on);
-    opacity: 0.7;
-    align-self: flex-start;
-}
-
-.lcd-unit {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--lcd-on);
-    opacity: 0.7;
-}
-
-.seg-wrap {
-    position: relative;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1;
-}
-
-.seg-ghost {
-    color: var(--lcd-off);
-}
-
-.seg-value {
-    position: absolute;
-    right: 0;
-    top: 0;
-    color: var(--lcd-on);
-    white-space: nowrap;
-}
-
-/* ===== Indikator bawah ===== */
-.bottom-indicators {
-    position: absolute;
-    top: 474px;
-    left: 264px;
-    width: 500px;
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-}
-
-.icon-item {
-    width: 22px;
-    height: 22px;
-    color: var(--off);
-}
-
-.icon-item svg {
-    width: 100%;
-    height: 100%;
-}
-
-.icon-item.active {
-    color: #20e070;
-}
-
-.icon-item.high-beam {
-    color: #3d8bff;
-}
-
-.icon-item.warn {
-    color: #ff3c3c;
-}
-
-.icon-item.locked {
-    color: #ffea00;
-}
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: .15; } }
+@keyframes pulse { 50% { opacity: .65; } }
