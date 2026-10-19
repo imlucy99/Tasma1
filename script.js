@@ -131,10 +131,7 @@ const G_BELT = 'M12 2a2.2 2.2 0 1 0 0 4.4A2.2 2.2 0 0 0 12 2zM8 8h8l1 7h-2l-.5 7
 // 1) BENSIN  2) INDIKATOR LAMPU (bohlam)  3) SEATBELT  4) ENGINE HEALTH
 const fuelG = needleGauge(60, 104, ICON_FUEL, 'E', 'F');
 box(186, 140);
-const elSigL = bulb(206.5, 290, 12, G_LEFT, '', 'sig sigL');
-const elHead = bulb(239.5, 290, 12, G_HEAD, '', 'head');
-const elLock = bulb(272.5, 290, 12, G_LOCK, '', 'lock');
-const elSigR = bulb(305.5, 290, 12, G_RIGHT, '', 'sig sigR');
+const elHead = bulb(256, 290, 15, G_HEAD, '', 'head');
 box(474, 140);
 const elBelt = bulb(544, 290, 15, G_BELT, '', 'belt on');
 const engG = needleGauge(636, 104, ICON_ENG, '0', '100');
@@ -174,7 +171,7 @@ window.setGear = function (gear) {
 };
 // 6. Lock / Unlock (kuning menyala = terkunci)
 window.updateLockStatus = function (state) {
-    elLock.classList.toggle('on', isLockedState(state));
+    // indikator kunci dihilangkan dari desain
 };
 window.setDoors = window.setDoorLock = window.setVehicleLocked = window.setLocked =
     window.setLock = window.toggleLock = window.updateLockStatus;
@@ -185,8 +182,8 @@ window.setHeadlights = function (state) {
     elHead.style.setProperty('--c', v === 2 ? '#3d8bff' : '#2bd96a');
 };
 // 8. Sein
-window.setLeftIndicator = s => elSigL.classList.toggle('on', isTrueValue(s));
-window.setRightIndicator = s => elSigR.classList.toggle('on', isTrueValue(s));
+window.setLeftIndicator = function () {};
+window.setRightIndicator = function () {};
 // 9. Seatbelt: sudah dipakai = lampu mati, belum = merah menyala
 window.setSeatbelts = s => elBelt.classList.toggle('on', !isTrueValue(s));
 // 10. Odometer
