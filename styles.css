@@ -1,0 +1,341 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Ubah --hud-scale untuk memperbesar / memperkecil HUD di dalam game */
+    --hud-scale: 0.5;
+    --copper: #c98a5b;
+    --copper-hot: #ffcf9e;
+    --white: #f4f1ec;
+    --red: #ff2a2a;
+    --lcd-on: #f4f1ec;
+    --lcd-off: rgba(244, 241, 236, 0.08);
+    --off: rgba(255, 255, 255, 0.16);
+    --font: 'Bahnschrift', 'Oswald', 'Roboto Condensed', 'Arial Narrow', 'Segoe UI', Arial, sans-serif;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    background: transparent !important;
+    background-color: transparent !important;
+    overflow: hidden !important;
+    font-family: var(--font);
+    color: var(--white);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    user-select: none;
+}
+
+/* Mode preview (dipakai oleh halaman demo) */
+html.preview body {
+    justify-content: center;
+    align-items: center;
+}
+
+/* KONTAINER HUD UTAMA (1000 x 600 lalu di-scale) */
+.hud {
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    margin: 12px;
+    flex-shrink: 0;
+    transform: scale(var(--hud-scale));
+    transform-origin: bottom right;
+}
+
+html.preview .hud {
+    transform-origin: center;
+}
+
+.dial {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* ===== Bodi gauge ===== */
+.rim-outer {
+    fill: none;
+    stroke: url(#rim-grad);
+    stroke-width: 6;
+}
+
+.rim-inner {
+    fill: #050505;
+    stroke: #000;
+    stroke-width: 6;
+}
+
+.face {
+    fill: url(#face-grad);
+}
+
+.pod {
+    fill: url(#face-grad);
+    stroke: none;
+}
+
+.pod-rim {
+    fill: none;
+    stroke: url(#rim-grad);
+    stroke-width: 3;
+}
+
+/* ===== Speedometer ===== */
+.tick-minor {
+    stroke: var(--white);
+    stroke-width: 1.6;
+}
+
+.tick-mid {
+    stroke: var(--white);
+    stroke-width: 2.4;
+}
+
+.tick-major {
+    stroke: var(--copper-hot);
+    stroke-width: 7;
+}
+
+.tick-minor.over,
+.tick-mid.over {
+    stroke: var(--red);
+}
+
+.red-band {
+    fill: none;
+    stroke: var(--red);
+    stroke-width: 5;
+}
+
+.tick-label {
+    fill: var(--white);
+    font-size: 29px;
+    font-weight: 600;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.unit-text {
+    fill: var(--white);
+    font-size: 22px;
+    font-weight: 500;
+}
+
+/* ===== Gauge kecil ===== */
+.rpm-tick,
+.mini-tick {
+    stroke: var(--white);
+    stroke-width: 1.4;
+}
+
+.rpm-tick.major,
+.mini-tick.major {
+    stroke: var(--copper-hot);
+    stroke-width: 3.2;
+}
+
+.rpm-tick.red,
+.mini-tick.red {
+    stroke: var(--red);
+}
+
+.rpm-num {
+    fill: var(--white);
+    font-size: 22px;
+    font-weight: 600;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.rpm-num.red {
+    fill: var(--red);
+}
+
+.mini-label {
+    fill: var(--white);
+    font-size: 20px;
+    font-weight: 600;
+    dominant-baseline: central;
+}
+
+.mini-text {
+    fill: var(--white);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.mini-text.small {
+    font-size: 13px;
+}
+
+.oil-num {
+    fill: var(--white);
+    font-size: 17px;
+    font-weight: 600;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+/* ===== Hub ===== */
+.hub-ring {
+    fill: none;
+    stroke: rgba(255, 190, 130, 0.7);
+    stroke-width: 2;
+}
+
+.hub-dot {
+    fill: #000;
+}
+
+.side-icon {
+    color: var(--white);
+}
+
+.side-icon.low {
+    color: var(--red);
+}
+
+/* ===== Readout digital ===== */
+.readout {
+    position: absolute;
+    top: 368px;
+    left: 264px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.speed-text {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+    min-width: 96px;
+    text-align: center;
+}
+
+.speed-text .dim {
+    color: rgba(255, 255, 255, 0.12);
+}
+
+.speed-text .bright {
+    color: var(--white);
+}
+
+/* Lampu sein (tanpa kedip, menyala solid) */
+.signal {
+    width: 26px;
+    height: 26px;
+    color: var(--off);
+}
+
+.signal svg {
+    width: 100%;
+    height: 100%;
+}
+
+.signal.active {
+    color: #20e070;
+}
+
+/* ===== Gear & ODO ===== */
+.lcd {
+    position: absolute;
+    top: 428px;
+    left: 419px;
+    width: 190px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.lcd-cell {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.lcd-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--lcd-on);
+    opacity: 0.7;
+    align-self: flex-start;
+}
+
+.lcd-unit {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--lcd-on);
+    opacity: 0.7;
+}
+
+.seg-wrap {
+    position: relative;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.seg-ghost {
+    color: var(--lcd-off);
+}
+
+.seg-value {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--lcd-on);
+    white-space: nowrap;
+}
+
+/* ===== Indikator bawah ===== */
+.bottom-indicators {
+    position: absolute;
+    top: 474px;
+    left: 264px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+}
+
+.icon-item {
+    width: 22px;
+    height: 22px;
+    color: var(--off);
+}
+
+.icon-item svg {
+    width: 100%;
+    height: 100%;
+}
+
+.icon-item.active {
+    color: #20e070;
+}
+
+.icon-item.high-beam {
+    color: #3d8bff;
+}
+
+.icon-item.warn {
+    color: #ff3c3c;
+}
+
+.icon-item.locked {
+    color: #ffea00;
+}
