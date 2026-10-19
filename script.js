@@ -1,7 +1,7 @@
 // ===================== KONFIGURASI =====================
 const CONFIG = {
-    unit: 'KMH',          // 'MPH' atau 'KMH'
-    maxSpeed: 200,        // Angka maksimal di dial
+    unit: 'MPH',          // 'MPH' atau 'KMH'
+    maxSpeed: 180,        // Angka maksimal di dial
     majorStep: 20,        // Garis tebal + angka
     midStep: 10,          // Garis tipis
     redMarks: [40, 80]    // Tanda merah kecil di dial (kosongkan [] kalau tidak mau)
