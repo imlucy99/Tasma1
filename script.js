@@ -52,7 +52,6 @@ for (let v = 0; v <= CONFIG.maxSpeed; v += CONFIG.midStep) {
     }
 }
 el('text', { x: 622, y: 193, class: 'unit', text: CONFIG.unit === 'KMH' ? 'km/h' : 'mph' }, art);
-el('text', { x: 400, y: 207, class: 'brand', text: 'JGVRP' }, art);
 
 // Odometer mekanik (6 digit, digit terakhir = desimal)
 el('rect', { x: 358, y: 211, width: 84, height: 20, rx: 2, class: 'odo-bg' }, art);
@@ -132,14 +131,12 @@ const G_BELT = 'M12 2a2.2 2.2 0 1 0 0 4.4A2.2 2.2 0 0 0 12 2zM8 8h8l1 7h-2l-.5 7
 // 1) BENSIN  2) INDIKATOR LAMPU (bohlam)  3) SEATBELT  4) ENGINE HEALTH
 const fuelG = needleGauge(60, 104, ICON_FUEL, 'E', 'F');
 box(186, 140);
-const elSigL = bulb(208, 285, 11, G_LEFT, 'KIRI', 'sig sigL');
-const elHead = bulb(240, 285, 11, G_HEAD, 'LAMPU', 'head');
-const elLock = bulb(272, 285, 11, G_LOCK, 'KUNCI', 'lock');
-const elSigR = bulb(304, 285, 11, G_RIGHT, 'KANAN', 'sig sigR');
+const elSigL = bulb(206.5, 290, 12, G_LEFT, '', 'sig sigL');
+const elHead = bulb(239.5, 290, 12, G_HEAD, '', 'head');
+const elLock = bulb(272.5, 290, 12, G_LOCK, '', 'lock');
+const elSigR = bulb(305.5, 290, 12, G_RIGHT, '', 'sig sigR');
 box(474, 140);
-const elBelt = bulb(544, 288, 14, G_BELT, '', 'belt on');
-el('text', { x: 500, y: GY + 44, class: 'cap', text: 'SABUK' }, gauges);
-el('text', { x: 588, y: GY + 44, class: 'cap', text: 'SABUK' }, gauges);
+const elBelt = bulb(544, 290, 15, G_BELT, '', 'belt on');
 const engG = needleGauge(636, 104, ICON_ENG, '0', '100');
 
 // ===================== HELPER =====================
