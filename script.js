@@ -129,12 +129,12 @@ const G_LOCK = 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0
 const G_BELT = 'M12 2a2.2 2.2 0 1 0 0 4.4A2.2 2.2 0 0 0 12 2zM8 8h8l1 7h-2l-.5 7h-5L9 15H7zM16.5 6.5l1.4 1.4L7.5 18.3l-1.4-1.4z';
 
 // 1) BENSIN  2) INDIKATOR LAMPU (bohlam)  3) SEATBELT  4) ENGINE HEALTH
-const fuelG = needleGauge(60, 104, ICON_FUEL, 'E', 'F');
-box(186, 140);
-const elHead = bulb(256, 290, 15, G_HEAD, '', 'head');
-box(474, 140);
-const elBelt = bulb(544, 290, 15, G_BELT, '', 'belt on');
-const engG = needleGauge(636, 104, ICON_ENG, '0', '100');
+const fuelG = needleGauge(58, 140, ICON_FUEL, 'E', 'F');
+box(239, 140);
+const elHead = bulb(309, 290, 15, G_HEAD, '', 'head');
+box(421, 140);
+const elBelt = bulb(491, 290, 15, G_BELT, '', 'belt on');
+const engG = needleGauge(602, 140, ICON_ENG, '0', '100');
 
 // ===================== HELPER =====================
 function isLockedState(v) { return v === true || v === 1 || v === "1" || v === "true" || v === 2 || v === "2"; }

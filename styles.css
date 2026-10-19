@@ -12,7 +12,7 @@ html, body {
     background: transparent !important;
     overflow: hidden !important;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: flex-end;
     user-select: none;
     font-family: 'Arial Narrow', 'Roboto Condensed', Arial, sans-serif;
@@ -22,10 +22,10 @@ html.preview body { justify-content: center; align-items: center; background: #1
 .hud {
     width: 800px;
     height: 370px;
-    margin: 18px;
+    margin: 0 18px 18px;
     flex-shrink: 0;
     transform: scale(var(--hud-scale));
-    transform-origin: bottom right;
+    transform-origin: bottom center;
 }
 html.preview .hud { transform-origin: center; }
 #dial { width: 100%; height: 100%; overflow: visible; }
